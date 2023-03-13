@@ -8,7 +8,7 @@ declare module "styled-components" {
     colors: {
       backgroundColor: string;
       backgroundColorNavigationBar: string;
-      mainColorButton: string;
+      mainColor: string;
       mainFontColor: string;
       mainFontColorButton: string;
     };

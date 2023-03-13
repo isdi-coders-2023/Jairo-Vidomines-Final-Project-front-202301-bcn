@@ -7,7 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 import { projectsReducer } from "./features/projectsSlice/projectsSlice";
 import { userReducer } from "./features/userSlice/userSlice";
-import { uiReducer } from "./uiSlice/uiSlice";
+import { uiReducer } from "./features/uiSlice/uiSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,

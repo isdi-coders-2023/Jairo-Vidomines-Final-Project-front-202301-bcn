@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 import { loadProjectsActionCreator } from "../../store/features/projectsSlice/projectsSlice";
 import { ProjectsData } from "../../store/features/projectsSlice/types";
+import {
+  setIsLoadingActionCreator,
+  unsetIsLoadingActionCreator,
+} from "../../store/features/uiSlice/uiSlice";
 import { useAppDispatch } from "../../store/hooks";
 
 const apiUrl = process.env.REACT_APP_URL_API;
@@ -12,6 +16,8 @@ const useProjects = () => {
 
   const getProjects = useCallback(async () => {
     try {
+      dispatch(setIsLoadingActionCreator());
+
       const response = await fetch(
         `${apiUrl}${pathProjects}${getProjectsEndpoint}`,
         {
@@ -25,8 +31,11 @@ const useProjects = () => {
         return;
       }
 
+      dispatch(unsetIsLoadingActionCreator());
       dispatch(loadProjectsActionCreator(projects));
     } catch (error) {
+      dispatch(unsetIsLoadingActionCreator());
+
       return (error as Error).message;
     }
   }, [dispatch]);

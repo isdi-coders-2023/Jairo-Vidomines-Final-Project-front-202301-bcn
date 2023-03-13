@@ -30,6 +30,12 @@ const mockTokenPayload: CustomTokenPayload = {
 
 const mockToken = "jairo1020!";
 
+const mockLoginUser: User = {
+  username: mockTokenPayload.username,
+  id: mockTokenPayload.id,
+  token: mockToken,
+};
+
 describe("Given a useUser custom hook", () => {
   describe("When the loginUser function is called", () => {
     test("Then it should call the dispatch", async () => {
@@ -42,12 +48,6 @@ describe("Given a useUser custom hook", () => {
       (decodeToken as jest.MockedFunction<typeof decodeToken>).mockReturnValue(
         mockTokenPayload
       );
-
-      const mockLoginUser: User = {
-        username: mockTokenPayload.username,
-        id: mockTokenPayload.id,
-        token: mockToken,
-      };
 
       await loginUser(userCredentials);
 
@@ -65,7 +65,9 @@ describe("Given a useUser custom hook", () => {
 
       await loginUser(userCredentials);
 
-      expect(spy).not.toBeCalled();
+      expect(spy).not.toHaveBeenCalledWith(
+        loginUserActionCreator(mockLoginUser)
+      );
     });
   });
 

@@ -8,6 +8,10 @@ import {
 } from "../../store/features/userSlice/userSlice";
 import { showErrorToast } from "../../modals/modals";
 import useToken from "../useToken/useToken";
+import {
+  setIsLoadingActionCreator,
+  unsetIsLoadingActionCreator,
+} from "../../store/features/uiSlice/uiSlice";
 interface UseUserStructure {
   loginUser: (userCredentials: UserCredentials) => Promise<void>;
   logoutUser: () => void;
@@ -23,6 +27,8 @@ const useUser = (): UseUserStructure => {
 
   const loginUser = async (userCredentials: UserCredentials) => {
     try {
+      dispatch(setIsLoadingActionCreator());
+
       const response = await fetch(
         `${apiUrl}${usersEndpoint}${loginEndpoint}`,
         {
@@ -44,7 +50,9 @@ const useUser = (): UseUserStructure => {
         id,
       };
 
+      dispatch(unsetIsLoadingActionCreator());
       dispatch(loginUserActionCreator(userLogin));
+
       localStorage.setItem("token", token);
     } catch {
       showErrorToast("Wrong credentials");
